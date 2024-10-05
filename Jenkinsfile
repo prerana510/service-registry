@@ -1,5 +1,6 @@
 pipeline {
-	agent any tools {
+	agent any 
+	tools {
 		maven 'my-maven'
 		jdk 'my-jdk'
 	}
@@ -8,14 +9,14 @@ pipeline {
 			steps {git url:'https://github.com/prerana510/service-registry.git',branch:'main'}
 		}
 		stage('Build') {
-			step {bat "mvn clean install -DskipTests"}
+			steps {bat "mvn clean install -DskipTests"}
 		}
 		stage('Test') {
 			steps {bat "mvn test"}
 		}
-    stage('Deploy') {
+    		stage('Deploy') {
 			steps {bat "docker build -t registry-image ." 
-             bat "docker run -p 8761:8761 -d -name registry-container registry-image"}
+             		bat "docker run -p 8761:8761 -d -name registry-container registry-image"}
 		}
 	}
 }
